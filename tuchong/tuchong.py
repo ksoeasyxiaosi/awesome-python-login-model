@@ -77,6 +77,7 @@ def download_image(url):
     try:
         urls = 'https:' + url
         ir = requests.get(urls, headers=headers)
+        print('状态码' + ir.status_code)
         if ir.status_code == 200:
             save_image(ir.content)
         return None
@@ -85,17 +86,27 @@ def download_image(url):
 
 
 def save_image(content):
-    file_path = '{0}/{1}.{2}'.format(os.getcwd(), md5(content).hexdigest(), 'jpg')
+    global time
+    global dir
+    if time <= 0:
+        print('下载结束')
+        exit()
+    file_path = './' + dir + '/{1}.{2}'.format(os.getcwd(), md5(content).hexdigest(), 'jpg')
     if not os.path.exists(file_path):
         with open(file_path, 'wb') as f:
             f.write(content)
             f.close()
+            time = time - 1
             print('下载成功----------------------')
 
 
 def main():
+    global dir
+    global time
     term = input('输入想要搜索的内容: ')
-    for i in range(1, 7):
+    dir = input('下载目录: ')
+    time = int(input('下载次数: '))
+    for i in range(1, 99):
         get_imageID(term, i)
 
 
