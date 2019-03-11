@@ -77,7 +77,7 @@ def download_image(url):
     try:
         urls = 'https:' + url
         ir = requests.get(urls, headers=headers)
-        print('状态码' + ir.status_code)
+        print('状态码' + str(ir.status_code))
         if ir.status_code == 200:
             save_image(ir.content)
         return None
